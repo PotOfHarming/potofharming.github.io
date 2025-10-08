@@ -58,7 +58,7 @@ for (let opt of burger_opts)
 document.getElementById("logo").addEventListener("click", function(e)
 {
     e.preventDefault();
-    showLoading(onHome ? "./index.htm" : "../index.htm");
+    showLoading(onHome ? "./index.html" : "../index.html");
 });
 
 function showLoading(link) {
@@ -78,4 +78,5 @@ function showLoading(link) {
         window.location.href = link;
         localStorage.setItem("enableLoadingScreen", "1");
     }, 500);
+
 }
