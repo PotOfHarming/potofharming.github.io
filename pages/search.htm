@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Flight Selection | SAS</title>
+        <link rel="shortcut icon" href="../images/favicon-32x32.png" type="image/x-icon">
+
+        <link rel="stylesheet" href="../stylesheets/fonts.css">
+        <link rel="stylesheet" href="../stylesheets/standard.css">
+        <link rel="stylesheet" href="../stylesheets/search.css">
+        <script src="../scripts/json/airports.js"></script>
+        <script src="../scripts/standard.js" defer></script>
+        <script src="../scripts/server/find.js" defer></script>
+        <script src="../scripts/search.js" defer></script>
+    </head>
+    <body>
+        <!-- Loading screen -->
+        <section id="loading">
+            <img src="../images/logo.png">
+            <hr>
+            <img id="plane" src="../images/icons/flight.png">
+        </section>
+        <!-- Burger menu -->
+        <aside>
+            <ul id="burger_menu-options">
+                <li class="burger-opt">
+                    <button id="burger_menu-btn">
+                        <hr>
+                        <hr>
+                        <hr>
+                    </button>
+                </li>
+                <li class="burger-opt open-page">
+                    <a href="#"><img src="../images/icons/account.png"></a>
+                    <p>Account</p>
+                </li>
+                <li class="burger-opt open-page">
+                    <a href="./search.htm"><img src="../images/icons/flights.png"></a>
+                    <p>Flights</p>
+                </li>
+                <li class="burger-opt open-page">
+                    <a href="#"><img src="../images/icons/my-trips.png"></a>
+                    <p>My trips</p>
+                </li>
+                <li class="burger-opt open-page">
+                    <a href="#"><img src="../images/icons/check-in.png"></a>
+                    <p>Check in</p>
+                </li>
+                <li class="burger-opt open-page">
+                    <a href="#"><img src="../images/icons/low-fare-calender.png"></a>
+                    <p>Low fare calender</p>
+                </li>
+                <li class="burger-opt open-page">
+                    <a href="#"><img src="../images/icons/destinations.png"></a>
+                    <p>Destinations</p>
+                </li>
+                <li class="burger-opt open-page">
+                    <a href="#"><img src="../images/icons/help-and-support.png"></a>
+                    <p>Help & Support</p>
+                </li>
+            </ul>
+        </aside>
+        <!-- Header menu -->
+        <header>
+            <nav>
+                <img src="../images/logo.png" id="logo">
+                <hr id="progress_line">
+                <ul id="progress_dat">
+                    <li class="dot started">
+                        <p class="selected">Select</p>
+                    </li>
+                    <li class="dot">
+                        <p>Passengers</p>
+                    </li>
+                    <li class="dot">
+                        <p>Extras</p>
+                    </li>
+                    <li class="dot">
+                        <p>Payment</p>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <!-- Flight information -->
+            <section id="flight_data">
+                <article id="outbound">
+                    <p class="flight_title">
+                        Depart
+                    </p>
+                    <p class="flight_date" id="outbound_date">
+                        MON 06 OCT
+                    </p>
+                </article>
+                <article id="inbound">
+                    <p class="flight_title">
+                        Return
+                    </p>
+                    <p class="flight_date" id="inbound_date">
+                        WED 08 OCT
+                    </p>
+                </article>
+            </section>
+            <section id="flight">
+                <p id="flight_outbound">
+                    Amsterdam AMS
+                </p>
+                <img src="../images/icons/flight.png" data-type="departure">
+                <p id="flight_inbound">
+                    Stockholm ARN
+                </p>
+            </section>
+            <!-- Dates list -->
+            <section id="dates">
+                <article class="date">
+                    <p class="day">FRI 03 OCT</p>
+                    <p class="price">€001,01</p>
+                </article>
+                <article class="date">
+                    <p class="day">SAT 04 OCT</p>
+                    <p class="price">€002,02</p>
+                </article>
+                <article class="date">
+                    <p class="day">SUN 05 OCT</p>
+                    <p class="price">€003,03</p>
+                </article>
+                <article class="date selected-date">
+                    <p class="day">MON 06 OCT</p>
+                    <p class="price">€004,04</p>
+                </article>
+                <article class="date">
+                    <p class="day">TUE 07 OCT</p>
+                    <p class="price">€005,05</p>
+                </article>
+                <article class="date">
+                    <p class="day">WED 08 OCT</p>
+                    <p class="price">€006,06</p>
+                </article>
+                <article class="date">
+                    <p class="day">THU 09 OCT</p>
+                    <p class="price">€007,07</p>
+                </article>
+            </section>
+
+            <!-- Flights -->
+            <section id="flight_list">
+            </section>
+        </main>
+    </body>
+</html>

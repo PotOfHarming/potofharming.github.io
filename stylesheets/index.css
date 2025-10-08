@@ -1,0 +1,90 @@
+:root
+{
+    --main-width: max(50vw, min(80vw, 80vh));
+    --main-height: calc(100vh - clamp(20px, max(7vw, 7vh), max(12vw, 12vh)));
+}
+
+main
+{
+    background: rgba(0, 0, 0, 0.4);
+}
+
+main form
+{
+    width: 100%;
+    height: 95%;
+    position: absolute;
+    top: 2.5%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+main form::-webkit-scrollbar
+{
+    display: none;
+}
+
+.flight
+{
+    display: flex;
+    justify-content: space-around;
+    width: var(--main-width);
+    margin: 5px 0;
+    padding: 5px 0;
+}
+
+.flight input, .flight button
+{
+    height: calc(var(--main-width)*0.05);
+    font-size: max(1.5vw, 1.5vh);
+    border: none;
+    border-radius: min(1vw, 1vh);
+}
+
+.flight input
+{
+    width: 30%;
+    background: color-mix(in srgb, var(--light-blue) 75%, white 25%);
+
+}
+
+.flight:has(button) input
+{
+    width: 26%;
+}
+
+.flight:has(button) input[type="date"]
+{
+    width: 23%;
+}
+
+.flight button
+{
+    width: 12%;
+    cursor: pointer;
+    font-size: max(2.5vw, 2.5vh);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--light-blue);
+}
+
+#main_buttons
+{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-around;
+}
+
+#main_buttons button
+{
+    width: 45%;
+    height: calc(var(--main-width)*0.05);
+    margin: 5px 0;
+    font-size: max(1.5vw, 1.5vh);
+    border: none;
+    border-radius: min(1vw, 1vh);
+    cursor: pointer;
+    background-color: var(--blue);
+}

@@ -1,0 +1,408 @@
+/* -----===GLOBAL STYLES===----- */
+hr
+{
+    border: none;
+    background-color: black;
+}
+
+
+/* -----===HEADER STYLES===----- */
+
+#progress_line
+{
+    width: 70%;
+    height: clamp(2px, max(0.5vw, 0.5vh), max(1vw, 1vh));
+    border: none;
+    position: absolute;
+    top: 40%;
+    left: 25%;
+    transform: translateY(-50%);
+    background: linear-gradient(
+                                    to right, 
+                                    var(--progressbar-clr-1) 0%, 
+                                    var(--progressbar-clr-1) calc(var(--progressbar-val) - 15%), 
+                                    var(--progressbar-clr-2) calc(var(--progressbar-val) - 5%), 
+                                    var(--progressbar-clr-2) 100%
+                                );
+}
+
+#progress_dat
+{
+    position: absolute;
+    display: flex;
+    list-style-type: none;
+    width: 70%;
+    height: clamp(4px, max(2vw, 2vh), max(3vw, 3vh));
+    top: 40%;
+    left: 25%;
+    transform: translateY(-50%);
+    justify-content: space-between;
+}
+
+#progress_dat .dot
+{
+    width: clamp(4px, max(2vw, 2vh), max(3vw, 3vh));
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--progressbar-clr-2);
+}
+
+#progress_dat .dot.started
+{
+    background-color: var(--progressbar-clr-1);
+    cursor: pointer;
+}
+
+#progress_dat .dot p
+{
+    position: relative;
+    width: 350%;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    top: clamp(4px, max(2vw, 2vh), max(3vw, 3vh));
+    font-size: clamp(2px, max(1vw, 1vh), max(1.5vw, 1.5vh));
+    font-weight: 700;
+    color: var(--progress-txt-main);
+}
+
+#progress_dat .dot p.done
+{
+    color: var(--progress-txt-done);
+    cursor: pointer;
+}
+
+#progress_dat .dot p.selected
+{
+    color: var(--progress-txt-selected);
+    font-weight: 900;
+    font-size: clamp(3px, max(1.25vw, 1.25vh), max(1.5vw, 1.5vh));
+    cursor: pointer;
+}
+
+
+
+/* -----===MAIN STYLE===----- */
+
+#flight_data
+{
+    width: 100%;
+    height: clamp(20px, max(4vw, 4vh), max(6vw, 6vh));
+    display: flex;
+    justify-content: space-around;
+}
+
+#flight_data #outbound, #flight_data #inbound
+{
+    display: flex;
+    height: 100%;
+    aspect-ratio: 2/1;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-around;
+    font-size: clamp(5px, max(1.25vw, 1.25vh), max(1.75vw, 1.75vh));
+    font-weight: 500;
+    color: white;
+    text-shadow: -6px -6px 8px rgba(0, 0, 0, 0.5);
+}
+
+#flight_data article .flight_title
+{
+    font-weight: 800;
+}
+
+#flight
+{
+    height: clamp(10px, max(4vw, 4vh), max(6vw, 6vh));
+    display: flex;
+    justify-content: space-around;
+}
+
+#flight img
+{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 60%;
+    aspect-ratio: 1/1;
+}
+
+#flight img[data-type="returning"]
+{
+    transform: translateY(-50%) rotate(180deg);
+    transform-origin: center center;
+}
+
+#flight p
+{
+    display: flex;
+    height: 50%;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(5px, max(2vw, 2vh), max(3vw, 3vh));
+    font-weight: 800;
+    justify-self: center;
+    align-items: center;
+    text-shadow: -6px -6px 8px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+#dates
+{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max(45vw, min(75vw, 75vh));
+    height: clamp(10px, max(4vw, 4vh), max(6vw, 6vh));
+    background-color: var(--blue);
+    display: flex;
+    justify-content: space-around;
+    border-radius: 0.5vw;
+    padding: max(0.5vw, 0.5vh);
+}
+
+#dates .date
+{
+    background-color: color-mix(in srgb, var(--light-blue) 80%, black 20%);
+    border-radius: .5vw;
+    width: 17.5%;
+    display: none;
+    justify-content: space-evenly;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+#dates .date.selected-date
+{
+    background-color: var(--light-blue);
+}
+
+#dates .date:nth-child(n+2):nth-child(-n+6)
+{
+    display: flex;
+}
+
+#dates .date .day
+{
+    font-size: clamp(2px, max(1vw, 1vh), max(1.5vw, 1.5vh));
+    font-weight: 600;
+}
+
+#dates .date .price
+{
+    font-size: clamp(2px, max(0.75vw, 0.75vh), max(1.25vw, 1.25vh));
+}
+
+/* ---==FLIGHT STYLES==--- */
+#flight_list
+{
+    width: max(50vw, min(80vw, 80vh));
+    height: calc(100% - clamp(50px, max(14vw, 14vh), max(20vw, 20vh)));
+    position: absolute; 
+    top: clamp(50px, max(14vw, 14vh), max(20vw, 20vh));
+    left: 50%;
+    transform: translateX(-50%);
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#flight_list::-webkit-scrollbar
+{
+    display: none;
+}
+
+.flight
+{
+    position: relative;
+    background-color: var(--light-blue);
+    width: 100%;
+    aspect-ratio: 6/1;
+    overflow: hidden;
+    border-radius: min(2vw, 2vh);
+    margin: clamp(2px, max(1vw, 1vh), max(1.5vw, 1.5vh)) 0;
+    display: block;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.5);
+}
+
+.flight button.info
+{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: clamp(10px, max(4vw, 4vh), max(5vw, 5vh));
+    background-color: #ffffff33;
+    border: none;
+    font-weight: 900;
+    font-size: clamp(2px, max(2vw, 2vh), max(3vw, 3vh));
+    cursor: pointer;
+    color: white;
+}
+
+.flight .route
+{
+    position: absolute;
+    left: clamp(10px, max(4vw, 4vh), max(5vw, 5vh));
+    width: calc(100% - clamp(10px, max(4vw, 4vh), max(5vw, 5vh)) - clamp(4px, max(15vw, 15vh), max(17.5vw, 17.5vh)));
+    height: 100%;
+    display: flex;
+}
+
+.flight .route .flight-segment
+{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(10px, max(3.5vw, 3.5vh), max(5vw, 5vh));
+    height: clamp(10px, max(3.5vw, 3.5vh), max(5vw, 5vh));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-align: center;
+    font-size: clamp(3px, max(1vw, 1vh), max(1.5vw, 1.5vh));
+    color: white;
+    font-weight: 600;
+}
+
+.flight .route .departure
+{
+    left: clamp(3px, max(1vw, 1vh), max(1.5vw, 1.5vh));
+}
+
+.flight .route .arrival
+{
+    right: clamp(3px, max(1vw, 1vh), max(1.5vw, 1.5vh));
+}
+
+.flight .route .ball
+{
+    aspect-ratio: 1/1;
+    width: clamp(5px, max(1.5vw, 1.5vh), max(2vw, 2vh));
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--route-line-color);
+}
+
+.flight .route .duration
+{
+    font-size: clamp(3px, max(1.5vw, 1.5vh), max(2.25vw, 2.25vh));
+    color: white;
+    height: clamp(4px, max(2vw, 2vh), max(3.25vw, 3.25vh));
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: calc(50% - clamp(4px, max(2.5vw, 2.5vh), max(3.25vw, 3.25vh)));
+    transform: translate(-50%, -50%);
+}
+
+.flight .route .start
+{
+    left: clamp(5px, max(5vw, 5vh), max(7vw, 7vh));
+}
+
+.flight .route .end
+{
+    right: clamp(5px, max(5vw, 5vh), max(7vw, 7vh));
+}
+
+.flight .route .timeline
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - clamp(15px, max(11.5vw, 11.5vh), max(16vw, 16vh)));
+    height: clamp(4px, max(0.5vw, 0.5vh), max(2vw, 2vh));
+    background-color: var(--route-line-color);
+}
+
+.flight .route .operator
+{
+    color: darkgray;
+    position: absolute;
+    left: clamp(2px, max(0.75vw, 0.75vh), max(1.5vw, 1.5vh));
+    bottom: clamp(2px, max(0.75vw, 0.75vh), max(1.5vw, 1.5vh));
+    font-size: clamp(2px, max(1vw, 1vh), max(1.5vw, 1.5vh));
+}
+
+.flight .route .operator-text
+{
+    color: white;
+    font-size: clamp(3px, max(0.85vw, 0.85vh), max(1.35vw, 1.35vh));
+}
+
+.flight .classes
+{
+    width: clamp(4px, max(15vw, 15vh), max(17.5vw, 17.5vh));
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    list-style-type: none;
+}
+
+.flight .classes .class 
+{
+    position: relative;
+    color: white;
+    width: 50%;
+    border-left: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: space-evenly;
+    font-size: clamp(3px, max(1.2vw, 1.2vh), max(1.5vw, 1.5vh));
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.flight .classes .class .name
+{
+    font-size: clamp(4px, max(1.5vw, 1.5vh), max(2vw, 2vh));
+    font-weight: 800;
+}
+
+.flight .classes .class .seats-left
+{
+    color: red;
+    font-size: clamp(1px, max(0.75vw, 0.75vh), max(1vw, 1vh));
+    position: absolute;
+    width: 100%;
+    right: clamp(2px, max(0.75vw, 0.75vh), max(1.5vw, 1.5vh));
+    top: clamp(2px, max(0.75vw, 0.75vh), max(1.5vw, 1.5vh));
+    text-align: right;
+}
+
+.flight .route .transfers
+{
+    display: flex;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - clamp(15px, max(11vw, 11vh), max(15.5vw, 15.5vh)));
+    height: clamp(10px, max(2vw, 2vh), max(3vw, 3vh));
+    list-style-type: none;
+    justify-content: space-around;
+}
+
+.flight .route .transfers .transfer
+{
+    height: 100%;
+    aspect-ratio: 2/1;
+    background-color: var(--route-line-color);
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: max(0.25vw, 0.25vh);
+    font-size: clamp(3px, max(1.2vw, 1.2vh), max(1.5vw, 1.5vh));
+}
