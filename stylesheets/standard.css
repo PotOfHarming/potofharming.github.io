@@ -58,7 +58,7 @@ body, html {
     top: 0;
     left: 0;
     z-index: 100000;
-    animation: fadeOut 0.5s forwards 1.5s;
+    animation: fadeOut 2s forwards 3s;
     display: block;
 }
 
@@ -123,7 +123,7 @@ body, html {
 }
 
 #loading img:nth-of-type(2).animate {
-    animation: toRight 1.5s forwards;
+    animation: toRight 1.5s forwards 1s;
 }
 
 @keyframes toRight {
@@ -263,5 +263,4 @@ main
     height: calc(100vh - clamp(20px, max(7vw, 7vh), max(12vw, 12vh)));
     left: 50%;
     transform: translateX(-50%);
-
 }
