@@ -79,5 +79,3 @@ function showLoading(link) {
         localStorage.setItem("enableLoadingScreen", "1");
     }, 1000);
 }
-
-
