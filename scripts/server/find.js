@@ -239,10 +239,10 @@ async function findTransferringFlight(origin, arrival, date, currency="EUR")
         let newStart = new Date(fl_arrival.getTime() + 2*60*60*1000);
         let newEnd   = new Date(fl_arrival.getTime() + 24*60*60*1000);
 
-        let newSDate = `${newStart.getFullYear()}-${String(newStart.getMonth()+1).padStart(2)}-${String(newStart.getDate()).padStart(2)}`.replaceAll(" ", "0");
-        let newSTime = `${String(newStart.getHours()).padStart(2,"0")}%3A${String(newStart.getMinutes()).padStart(2)}`;
-        let newEDate = `${newEnd.getFullYear()}-${String(newEnd.getMonth()+1).padStart(2,"0")}-${String(newEnd.getDate()).padStart(2)}`.replaceAll(" ", "0");
-        let newETime = `${String(newEnd.getHours()).padStart(2)}%3A${String(newEnd.getMinutes()).padStart(2)}`;
+        let newSDate = `${newStart.getFullYear()}-${String(newStart.getMonth()+1).padStart(2, '0')}-${String(newStart.getDate()).padStart(2, '0')}`;
+        let newSTime = `${String(newStart.getHours()).padStart(2, '0')}%3A${String(newStart.getMinutes()).padStart(2, '0')}`;
+        let newEDate = `${newEnd.getFullYear()}-${String(newEnd.getMonth()+1).padStart(2, '0')}-${String(newEnd.getDate()).padStart(2, '0')}`;
+        let newETime = `${String(newEnd.getHours()).padStart(2, '0')}%3A${String(newEnd.getMinutes()).padStart(2, '0')}`;
         console.log(newSDate)
         console.log(newEDate)
 
@@ -283,5 +283,6 @@ async function findTransferringFlight(origin, arrival, date, currency="EUR")
     }
     console.log("Loaded all flights!");
 }
+
 
 // findTransferringFlight("EIN", "STN", "2025-12-12")
