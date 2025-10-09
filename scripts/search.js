@@ -201,9 +201,6 @@ function createFlight(val_duration, val_departure, val_depart_time, val_transfer
 
 
 
-function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 function formatShortDate(dateString) {
     const date = new Date(dateString);
@@ -268,11 +265,11 @@ async function loadSearch()
     }
 
 
-    for (let i = 0; i < 7; i++)
+    for (let i = 0; i < 5; i++)
     {
-        const flight_date = new Date(new Date(dat).setDate(new Date(dat).getDate() + (i-3))).toISOString().split('T')[0];
+        const flight_date = new Date(new Date(dat).setDate(new Date(dat).getDate() + (i-2))).toISOString().split('T')[0];
         
-        findTransferringFlight(orig, dest, flight_date, curr, false)
+        await findTransferringFlight(orig, dest, flight_date, curr, false)
             .then(val => {
                 val = val===0 ? val = "-" : `€${val}`;
                 document.querySelectorAll(".date .price")[i].innerText = val;
