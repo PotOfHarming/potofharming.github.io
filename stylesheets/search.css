@@ -176,6 +176,12 @@ hr
     cursor: pointer;
 }
 
+#dates .date[data-disabled="true"]
+{
+    background-color: color-mix(in srgb, var(--silver) 80%, black 20%);
+    cursor: auto;
+}
+
 #dates .date.selected-date
 {
     background-color: var(--light-blue);
@@ -405,4 +411,5 @@ hr
     align-items: center;
     border-radius: max(0.25vw, 0.25vh);
     font-size: clamp(3px, max(1.2vw, 1.2vh), max(1.5vw, 1.5vh));
+
 }
