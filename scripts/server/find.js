@@ -9,22 +9,8 @@ class Flight {
         this.arrive = arrive;
         this.daysLater = daysLater;
         this.flightNumbers = flightNumbers;
-        this.price = parseFloat(price).toFixed(2);
+        this.price = Number(parseFloat(price).toFixed(2));
         this.currency = currency;
-    }
-
-    toList() {
-        return {
-            origin: this.origin,
-            destination: this.destination,
-            transfers: this.transfers,
-            depart: this.depart,
-            arrive: this.arrive,
-            daysLater: this.daysLater,
-            flightnumber: this.flightNumbers,
-            price: this.price,
-            currency: this.currency
-        };
     }
 
     info() {
@@ -148,13 +134,13 @@ async function fetchAvailableRoutes(origin, arrival, sDate, eDate = sDate, sTime
 async function findTransferringFlight(origin, arrival, date, currency = "EUR", createCard = false) {
     console.log(origin, arrival, date, currency);
     const dest_list = [];
-    let cheapest = 0;
+    let prices = [];
 
     const results = await fetchAvailableRoutes(origin, arrival, date, date, "00%3A00", "23%3A59", currency);
     if (!results) {
         console.log("Error fetching available routes — retrying...");
         await delay(1000);
-        return findTransferringFlight(origin, arrival, date, currency, createCard);
+        return await findTransferringFlight(origin, arrival, date, currency, createCard);
     }
 
     for (let flight of results) dest_list.push({ dest: flight.destination, flight });
@@ -177,22 +163,23 @@ async function findTransferringFlight(origin, arrival, date, currency = "EUR", c
         const dep = new Date(f.depart);
         const arr = new Date(f.arrive);
         const timeDiff = timeDifference(f.depart, f.arrive)[0];
-        if (cheapest==0 || cheapest > f.price) cheapest = f.price;
+        prices.push(f.price);
 
-        createFlight(
-            timeDiff,
-            f.origin,
-            `${String(dep.getHours()).padStart(2, "0")}:${String(dep.getMinutes()).padStart(2, "0")}`,
-            f.transfers,
-            f.destination,
-            `${String(arr.getHours()).padStart(2, "0")}:${String(arr.getMinutes()).padStart(2, "0")}`,
-            f.daysLater,
-            ["Ryanair"],
-            `€${f.price}`,
-            999,
-            "-",
-            0
-        );
+        if (createCard)
+            createFlight(
+                timeDiff,
+                f.origin,
+                `${String(dep.getHours()).padStart(2, "0")}:${String(dep.getMinutes()).padStart(2, "0")}`,
+                f.transfers,
+                f.destination,
+                `${String(arr.getHours()).padStart(2, "0")}:${String(arr.getMinutes()).padStart(2, "0")}`,
+                f.daysLater,
+                ["Ryanair"],
+                `€${f.price}`,
+                999,
+                "-",
+                0
+            );
     }
 
     for (let { dest: DEST, flight: FLIGHT } of dest_list) {
@@ -217,6 +204,9 @@ async function findTransferringFlight(origin, arrival, date, currency = "EUR", c
 
         if (!flight2) continue;
 
+        console.log(FLIGHT.origin, FLIGHT.price, flight2.origin, flight2.price);
+        
+
         const f = new Flight(
             origin,
             arrival,
@@ -228,31 +218,38 @@ async function findTransferringFlight(origin, arrival, date, currency = "EUR", c
             parseFloat(FLIGHT.price) + parseFloat(flight2.price),
             currency
         );
-        if (cheapest==0 || cheapest > f.price) cheapest = f.price;
+
 
         const dep = new Date(f.depart);
         const arr = new Date(f.arrive);
         const timeDiff = timeDifference(f.depart, f.arrive)[0];
 
         console.log(`Transfer route found: ${origin} → ${DEST} → ${arrival}`);
+        prices.push(f.price);
 
-        createFlight(
-            timeDiff,
-            f.origin,
-            `${String(dep.getHours()).padStart(2, "0")}:${String(dep.getMinutes()).padStart(2, "0")}`,
-            f.transfers,
-            f.destination,
-            `${String(arr.getHours()).padStart(2, "0")}:${String(arr.getMinutes()).padStart(2, "0")}`,
-            f.daysLater,
-            Array(f.transfers.length + 1).fill("Ryanair"),
-            `€${f.price}`,
-            999,
-            "-",
-            0
-        );
+        if (createCard)
+            createFlight(
+                timeDiff,
+                f.origin,
+                `${String(dep.getHours()).padStart(2, "0")}:${String(dep.getMinutes()).padStart(2, "0")}`,
+                f.transfers,
+                f.destination,
+                `${String(arr.getHours()).padStart(2, "0")}:${String(arr.getMinutes()).padStart(2, "0")}`,
+                f.daysLater,
+                Array(f.transfers.length + 1).fill("Ryanair"),
+                `€${f.price}`,
+                999,
+                "-",
+                0
+            );
     }
     // console.log("Cheapest flight costst ", cheapest)
     console.log("Loaded all flights!");
+
+
+    const resolvedPrices = await Promise.all(prices); // waits for all promises
+    let cheapest = Math.min(...resolvedPrices);
+    console.log("Cheapest flight:", cheapest);
 
     if (!createCard) return cheapest;
 }
