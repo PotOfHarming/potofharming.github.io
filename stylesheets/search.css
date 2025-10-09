@@ -187,7 +187,7 @@ hr
     background-color: var(--light-blue);
 }
 
-#dates .date:nth-child(n+2):nth-child(-n+6)
+#dates .date
 {
     display: flex;
 }
@@ -411,5 +411,4 @@ hr
     align-items: center;
     border-radius: max(0.25vw, 0.25vh);
     font-size: clamp(3px, max(1.2vw, 1.2vh), max(1.5vw, 1.5vh));
-
 }
