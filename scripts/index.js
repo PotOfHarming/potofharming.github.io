@@ -1,82 +1,81 @@
-document.getElementById("search").addEventListener("click", search);
-window.addEventListener("load", onPageLoad);
+const home = "index.htm";
+const onHome = window.location.pathname.endsWith(home);
 
-function search() {
-    const flights = document.getElementsByClassName("flight");
-    let final_url = `?destinations=${flights.length}&currentSearch=1&currency=EUR`;
-    let flight_list = [];
-    let num = 1;
-    for (let flight of flights)
-    {
-        const origin = flight.children[0].value;
-        const destination = flight.children[1].value;
-        const date = flight.children[2].value;
-        if (origin==""||destination==""||date=="")
-        {
-            alert("You need to provide information to the missing fields!");
-            return;
-        }
-        const url = `&origin${num}=${origin}&destination${num}=${destination}&depart${num}=${date}`;
-        final_url += url;
-        flight_list.push([origin, destination, date]);
-        num++;
-    }
+const loadScreen = document.getElementById("loading");
 
-    showLoading("./pages/search.htm"+final_url);
-    localStorage.setItem("flights", JSON.stringify(flight_list));
+if (onHome && !localStorage.getItem("enableLoadingScreen"))
+{
+    loadScreen.style.animation = "";
+    loadScreen.style.opacity = "0";
+    loadScreen.style.display = "none";
+}
+else
+{
+    localStorage.removeItem("enableLoadingScreen");
+    const plane = document.getElementById("plane");
+    
+    plane.classList.remove("animate");
+    plane.style.left = "27.5%";
+    void plane.offsetWidth;
+    plane.classList.add("animate");
 }
 
-function createNewFlight(orig="", dest="", dat="")
+document.getElementById("burger_menu-options").children[0].addEventListener("click", function()
 {
-    var article = document.createElement("article");
-    article.classList.add("flight");
+    var side = document.getElementsByTagName("aside")[0];
+    switch (side.style.width)
+    {
+        case "min(8vw, 8vh)":
+            {
+                side.style.width = "max(20vw, 20vh)";
+                break;
+            };
+        case "max(20vw, 20vh)":
+            {
+                side.style.width = "min(8vw, 8vh)";
+                break;
+            };
+        default:
+            {
+                side.style.width = "max(20vw, 20vh)";
+                break;
+            }
+    }
+});
 
-    var origin = document.createElement("input");
-    origin.type = "text";
-    origin.placeholder = "Origin";
-    if (orig!=="") origin.value = orig;
-    origin.classList.add("origin_input");
-    var destination = document.createElement("input");
-    destination.type = "text";
-    destination.placeholder = "Destination";
-    if (dest!=="") destination.value = dest;
-    destination.classList.add("destination_input");
-    var date = document.createElement("input");
-    date.type = "date";
-    if (dat!=="") date.value = dat;
-    date.classList.add("date_input");
+const burger_opts = document.getElementsByClassName("open-page");
 
-    var deleteBtn = document.createElement("button");
-    deleteBtn.type = "button";
-    deleteBtn.innerText = "-";
-    deleteBtn.addEventListener("click", function(){
-        this.parentElement.remove();
+for (let opt of burger_opts)
+{
+    opt.children[0].addEventListener("click", function(e)
+    {
+        e.preventDefault();
+        if (opt.children[0].href==window.location.href+"#") return;
+        showLoading(opt.children[0].href);
     });
-    deleteBtn.classList.add("deleteBtn");
-
-    article.appendChild(origin);
-    article.appendChild(destination);
-    article.appendChild(date);
-    article.appendChild(deleteBtn);
-
-    document.getElementById("flights_form").insertBefore(article ,document.getElementById("main_buttons"));
 }
 
-function onPageLoad()
+document.getElementById("logo").addEventListener("click", function(e)
 {
-    if (localStorage.getItem("flights").toString()=="") return;
-    let flight_list = JSON.parse(localStorage.getItem("flights"));
-    for (let flight of flight_list)
-    {
-        if (flight==flight_list[0])
-        {
-            document.getElementsByClassName("origin_input")[0].value = flight[0];
-            document.getElementsByClassName("destination_input")[0].value = flight[1];
-            document.getElementsByClassName("date_input")[0].value = flight[2];
-        }
-        else
-        {
-            createNewFlight(flight[0], flight[1], flight[2]);
-        }
-    }
+    e.preventDefault();
+    showLoading(onHome ? "./index.htm" : "../index.htm");
+});
+
+function showLoading(link) {
+    const loadScreen = document.getElementById("loading");
+    const plane = document.getElementById("plane");
+    
+    plane.classList.remove("animate");
+    plane.style.left = "27.5%";
+    void plane.offsetWidth;
+
+    loadScreen.style.opacity = "";
+    loadScreen.style.display = "";
+    loadScreen.classList.add("initLoad");
+
+    // Redirect after 1s
+    setTimeout(() => {
+        window.location.href = link;
+        localStorage.setItem("enableLoadingScreen", "1");
+    }, 1000);
 }
