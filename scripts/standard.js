@@ -1,4 +1,4 @@
-const home = "index.htm";
+const home = "index.html";
 const onHome = window.location.pathname.endsWith(home);
 
 const loadScreen = document.getElementById("loading");
@@ -79,4 +79,5 @@ function showLoading(link) {
         localStorage.setItem("enableLoadingScreen", "1");
     }, 1000);
 }
+
 
