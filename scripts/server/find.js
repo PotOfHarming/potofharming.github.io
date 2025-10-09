@@ -145,15 +145,16 @@ async function fetchAvailableRoutes(origin, arrival, sDate, eDate = sDate, sTime
 }
 
 
-async function findTransferringFlight(origin, arrival, date, currency = "EUR") {
+async function findTransferringFlight(origin, arrival, date, currency = "EUR", createCard = false) {
     console.log(origin, arrival, date, currency);
     const dest_list = [];
+    let cheapest = 0;
 
     const results = await fetchAvailableRoutes(origin, arrival, date, date, "00%3A00", "23%3A59", currency);
     if (!results) {
         console.log("Error fetching available routes — retrying...");
         await delay(1000);
-        return findTransferringFlight(origin, arrival, date, currency);
+        return findTransferringFlight(origin, arrival, date, currency, createCard);
     }
 
     for (let flight of results) dest_list.push({ dest: flight.destination, flight });
@@ -176,6 +177,7 @@ async function findTransferringFlight(origin, arrival, date, currency = "EUR") {
         const dep = new Date(f.depart);
         const arr = new Date(f.arrive);
         const timeDiff = timeDifference(f.depart, f.arrive)[0];
+        if (cheapest==0 || cheapest > f.price) cheapest = f.price;
 
         createFlight(
             timeDiff,
@@ -226,6 +228,7 @@ async function findTransferringFlight(origin, arrival, date, currency = "EUR") {
             parseFloat(FLIGHT.price) + parseFloat(flight2.price),
             currency
         );
+        if (cheapest==0 || cheapest > f.price) cheapest = f.price;
 
         const dep = new Date(f.depart);
         const arr = new Date(f.arrive);
@@ -248,8 +251,10 @@ async function findTransferringFlight(origin, arrival, date, currency = "EUR") {
             0
         );
     }
-
+    // console.log("Cheapest flight costst ", cheapest)
     console.log("Loaded all flights!");
+
+    if (!createCard) return cheapest;
 }
 
 // findTransferringFlight("EIN", "STN", "2025-12-12");
