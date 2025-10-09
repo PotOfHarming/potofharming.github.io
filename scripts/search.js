@@ -201,11 +201,27 @@ function createFlight(val_duration, val_departure, val_depart_time, val_transfer
 
 
 
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function formatShortDate(dateString) {
+    const date = new Date(dateString);
+
+    const weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", 
+                    "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+    const day = weekdays[date.getDay()];
+    const dayNum = String(date.getDate()).padStart(2, "0");
+    const month = months[date.getMonth()];
+
+    return `${day} ${dayNum} ${month}`;
+}
 
 
 
-
-function loadSearch()
+async function loadSearch()
 {
     document.getElementById("flight_list").innerHTML = '';
     let tags = window.location.href.split(window.location.pathname)[1].replaceAll("?", "").split("&");
@@ -216,21 +232,9 @@ function loadSearch()
         val = tag.split("=")[1];
         values[key]=val;
     }
-    // console.log(values)
-    /*
-        "destinations=1"
-        "currentSearch=1"
-        "origin1=AMS"
-        "destination1=ARN
-        "depart1=06-10-2025
-        "origin2=ARN"
-        "destination2=AGP"
-        "depart2=08-10-2025"
-        "currency=EUR"
-        "adults=1"
-        "children=0"
-        "infants=0"
-    */
+
+    let orig, dest, dat, curr;
+    
     var destinations = values["destinations"]
     if (destinations==2)
     {
@@ -243,8 +247,9 @@ function loadSearch()
         document.getElementById("flight_outbound").innerText = `${getAirport(origin)} ${origin}`;
         document.getElementById("inbound_date").innerText = date_in;
         document.getElementById("flight_inbound").innerText = `${getAirport(destination)} ${destination}`;
+        [orig, dest, dat, curr] = [origin, destination, date_out, currency];
 
-        findTransferringFlight(origin, destination, date_out, currency);
+        findTransferringFlight(origin, destination, date_out, currency, true);
     }
     else
     {
@@ -257,8 +262,24 @@ function loadSearch()
         document.getElementById("flight_inbound").innerText = `${getAirport(origin)} ${origin}`;
         document.getElementById("outbound_date").innerText = date;
         document.getElementById("flight_outbound").innerText = `${getAirport(destination)} ${destination}`;
+        [orig, dest, dat, curr] = [origin, destination, date_out, currency];
 
-        findTransferringFlight(origin, destination, date, currency);
+        findTransferringFlight(origin, destination, date, currency, true);
+    }
+
+
+    for (let i = 0; i < 7; i++)
+    {
+        const flight_date = new Date(new Date(dat).setDate(new Date(dat).getDate() + (i-3))).toISOString().split('T')[0];
+        
+        findTransferringFlight(orig, dest, flight_date, curr, false)
+            .then(val => {
+                val = val===0 ? val = "-" : `€${val}`;
+                document.querySelectorAll(".date .price")[i].innerText = val;
+                document.querySelectorAll(".date .day")[i].innerText = formatShortDate(flight_date);
+                document.querySelectorAll(".date")[i].dataset.date = val == "-" ? "-" : flight_date;
+                if (val=="-") document.querySelectorAll(".date")[i].dataset.disabled = "true";
+            });
     }
 }
 
@@ -294,5 +315,25 @@ async function fetchFlights(origin, destination, date, currency = "EUR") {
     })
     .catch(err => console.error(err))
 }
+
+document.querySelectorAll(".date").forEach(el => {
+    el.addEventListener("click", () => {
+        let tags = window.location.href.split(window.location.pathname)[1].replaceAll("?", "").split("&");
+        let values = []
+        if (el.dataset.date=="-") return;
+        for (let tag of tags)
+        {
+            key = tag.split("=")[0];
+            val = tag.split("=")[1];
+            values[key]=val;
+        }
+            
+        var currentSearch = values["currentSearch"];
+        var oldDate = values["depart"+currentSearch];
+
+        const newUrl = ("?"+String(tags).replace(`depart${currentSearch}=${oldDate}`, `depart${currentSearch}=${el.dataset.date}`)).toString().replaceAll(",", "&");
+        showLoading(newUrl);
+    })
+});
 
 loadSearch()
