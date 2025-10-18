@@ -1,10 +1,16 @@
 var minimum_seats = 11;
 
-function createFlight(val_duration, val_departure, val_depart_time, val_transfers, val_arrival, val_arrival_time, val_days_later, val_operators, val_economy_cost, val_economy_seats, val_business_cost, val_business_seats)
-{
+function createFlight(
+                        val_duration, val_departure, val_depart_time, 
+                        val_transfers, val_arrival, val_arrival_time, 
+                        val_days_later, val_operators, val_economy_cost, 
+                        val_economy_seats, val_business_cost, val_business_seats, 
+                        val_urls
+                    ) {
     /* Container */
     var flight = document.createElement("article");
     flight.classList.add("flight");
+    flight.dataset.urls = val_urls;
 
 
 
@@ -12,6 +18,7 @@ function createFlight(val_duration, val_departure, val_depart_time, val_transfer
     var info = document.createElement("button");
     info.innerText = "+";
     info.classList.add("info");
+    info.addEventListener("click", () => { selectFlight(info); });
     var route = document.createElement("section");
     route.classList.add("route");
     var classes = document.createElement("ul");
@@ -39,16 +46,13 @@ function createFlight(val_duration, val_departure, val_depart_time, val_transfer
     var operators = document.createElement("p");
     operators.classList.add("operator");
     /* all operators */
-    if (val_operators.length == 1)
-    {
+    if (val_operators.length == 1) {
         operators.innerText = "Operated by "
         var operator_1 = document.createElement("span");
         operator_1.classList.add("operator-text");
         operator_1.innerText = val_operators[0];
         operators.appendChild(operator_1);
-    }
-    else if (val_operators.length == 2)
-    {
+    } else if (val_operators.length == 2) {
         operators.innerText = "Operated by "
         var operator_1 = document.createElement("span");
         operator_1.classList.add("operator-text");
@@ -60,9 +64,7 @@ function createFlight(val_duration, val_departure, val_depart_time, val_transfer
         operator_2.innerText = val_operators[1];
         operators.appendChild(operator_2);
 
-    }
-    else if (val_operators.length >= 3)
-    {
+    } else if (val_operators.length >= 3) {
         operators.innerText = "Operated by "
         var operator_1 = document.createElement("span");
         operator_1.classList.add("operator-text");
@@ -95,10 +97,8 @@ function createFlight(val_duration, val_departure, val_depart_time, val_transfer
 
 
     /* transfers content */
-    if (val_transfers.length>0)
-    {
-        for (let val_transfer of val_transfers)
-        {
+    if (val_transfers.length>0) {
+        for (let val_transfer of val_transfers) {
             var transfer = document.createElement("li");
             transfer.classList.add("transfer");
             transfer.innerText = val_transfer;
@@ -114,8 +114,7 @@ function createFlight(val_duration, val_departure, val_depart_time, val_transfer
     var arrival_time = document.createElement("p");
     arrival_time.classList.add("time");
     arrival_time.append(val_arrival_time);
-    if (parseInt(val_days_later)>0)
-    {
+    if (parseInt(val_days_later)>0) {
         var more_days = document.createElement("sup");
         more_days.innerText = "+"+val_days_later;
         arrival_time.appendChild(more_days)
@@ -149,8 +148,7 @@ function createFlight(val_duration, val_departure, val_depart_time, val_transfer
     var economy_cost = document.createElement("p");
     economy_cost.classList.add("cost");
     economy_cost.innerText = val_economy_cost;
-    if (parseInt(val_economy_seats)<minimum_seats&&parseInt(val_economy_seats)>0)
-    {
+    if (parseInt(val_economy_seats)<minimum_seats&&parseInt(val_economy_seats)>0) {
         var economy_seats = document.createElement("p");
         economy_seats.classList.add("seats-left");
         economy_seats.innerText = `${val_economy_seats} seats left!`;
@@ -170,8 +168,7 @@ function createFlight(val_duration, val_departure, val_depart_time, val_transfer
     var business_cost = document.createElement("p");
     business_cost.classList.add("cost");
     business_cost.innerText = val_business_cost;
-    if (parseInt(val_business_seats)<minimum_seats&&parseInt(val_business_seats)>0)
-    {
+    if (parseInt(val_business_seats)<minimum_seats&&parseInt(val_business_seats)>0) {
         var business_seats = document.createElement("p");
         business_seats.classList.add("seats-left");
         business_seats.innerText = `${val_business_seats} seats left!`;
@@ -218,62 +215,50 @@ function formatShortDate(dateString) {
 
 
 
-async function loadSearch()
-{
+async function loadSearch() {
     document.getElementById("flight_list").innerHTML = '';
     let tags = window.location.href.split(window.location.pathname)[1].replaceAll("?", "").split("&");
     let values = []
-    for (let tag of tags)
-    {
+    for (let tag of tags) {
         key = tag.split("=")[0];
         val = tag.split("=")[1];
         values[key]=val;
     }
-
-    let orig, dest, dat, curr;
     
     var destinations = values["destinations"]
-    if (destinations==2)
-    {
-        var origin = values["origin1"].toUpperCase();
-        var destination = values["destination1"].toUpperCase();
+    var currentSearch = values["currentSearch"];
+    var origin = values["origin"+currentSearch].toUpperCase();
+    var destination = values["destination"+currentSearch].toUpperCase();
+    var date = values["depart"+currentSearch];
+    var currency = values["currency"];
+    [origin, destination, date, currency] = [origin, destination, date, currency];
+    if (destinations==2) {
         var date_out = values["depart1"];
         var date_in = values["depart2"];
-        var currency = values["currency"];
         document.getElementById("outbound_date").innerText = date_out;
         document.getElementById("flight_outbound").innerText = `${getAirport(origin)} ${origin}`;
         document.getElementById("inbound_date").innerText = date_in;
         document.getElementById("flight_inbound").innerText = `${getAirport(destination)} ${destination}`;
-        [orig, dest, dat, curr] = [origin, destination, date_out, currency];
-
-        findTransferringFlight(origin, destination, date_out, currency, true);
-    }
-    else
-    {
-        var currentSearch = values["currentSearch"];
-        var origin = values["origin"+currentSearch].toUpperCase();
-        var destination = values["destination"+currentSearch].toUpperCase();
-        var date = values["depart"+currentSearch];
-        var currency = values["currency"];
+    } else {
         document.getElementById("inbound").remove();
-        document.getElementById("flight_inbound").innerText = `${getAirport(origin)} ${origin}`;
+        document.getElementById("flight_outbound").innerText = `${getAirport(origin)} ${origin}`;
         document.getElementById("outbound_date").innerText = date;
-        document.getElementById("flight_outbound").innerText = `${getAirport(destination)} ${destination}`;
-        [orig, dest, dat, curr] = [origin, destination, date_out, currency];
-
-        findTransferringFlight(origin, destination, date, currency, true);
+        document.getElementById("flight_inbound").innerText = `${getAirport(destination)} ${destination}`;
     }
+    findTransferringFlight(origin, destination, date, currency, true);
 
 
-    for (let i = 0; i < 5; i++)
-    {
-        const flight_date = new Date(new Date(dat).setDate(new Date(dat).getDate() + (i-2))).toISOString().split('T')[0];
+    for (let i=0; i<5; i++) {
+        const flight_date = new Date(new Date(date).setDate(new Date(date).getDate() + (i-2))).toISOString().split('T')[0];
+        document.querySelectorAll(".date .day")[i].innerText = formatShortDate(flight_date);
+    }
+    for (let i = 0; i < 5; i++) {
+        const flight_date = new Date(new Date(date).setDate(new Date(date).getDate() + (i-2))).toISOString().split('T')[0];
         
-        await findTransferringFlight(orig, dest, flight_date, curr, false)
+        await findTransferringFlight(origin, destination, flight_date, currency, false)
             .then(val => {
-                val = val===0 ? val = "-" : `€${val}`;
+                val = val===0||val===Infinity ? val = "-" : `€${val}`;
                 document.querySelectorAll(".date .price")[i].innerText = val;
-                document.querySelectorAll(".date .day")[i].innerText = formatShortDate(flight_date);
                 document.querySelectorAll(".date")[i].dataset.date = val == "-" ? "-" : flight_date;
                 if (val=="-") document.querySelectorAll(".date")[i].dataset.disabled = "true";
             });
@@ -284,42 +269,12 @@ const getAirport = (iata) => {
     return AIRPORTS[iata]!=null ? AIRPORTS[iata] : "UNKNOWN";
 };
 
-async function fetchFlights(origin, destination, date, currency = "EUR") {
-    const apiUrl = `http://127.0.0.1:5000/flights?origin=${origin}&destination=${destination}&date=${date}&currency=${currency}`;
-
-    await fetch(apiUrl)
-    .then(response => { if (response.ok) return response.json() })
-    .then(flights => {
-        for (let flight of flights)
-        {
-            if (!flight) return; // skip undefined
-            
-            createFlight(
-                flight.duration.replace("-", "") || "",                     // val_duration
-                flight.origin || "",                        // val_departure
-                flight.departureTime || "",                 // val_depart_time
-                flight.transfers || [],                     // val_transfers
-                flight.destination || "",                   // val_arrival
-                flight.arrivalTime || "",                   // val_arrival_time
-                (flight.daysLater !== undefined ? flight.daysLater.toString() : "0"), // val_days_later
-                ["Ryanair"],                               // val_operators
-                (flight.price !== undefined ? flight.price.toFixed(2) : "0.00"), // val_economy_cost
-                99,                                          // val_economy_seats
-                0,                                          // val_business_cost
-                0                                           // val_business_seats
-            );
-        }
-    })
-    .catch(err => console.error(err))
-}
-
 document.querySelectorAll(".date").forEach(el => {
     el.addEventListener("click", () => {
         let tags = window.location.href.split(window.location.pathname)[1].replaceAll("?", "").split("&");
         let values = []
         if (el.dataset.date=="-") return;
-        for (let tag of tags)
-        {
+        for (let tag of tags) {
             key = tag.split("=")[0];
             val = tag.split("=")[1];
             values[key]=val;
@@ -328,9 +283,39 @@ document.querySelectorAll(".date").forEach(el => {
         var currentSearch = values["currentSearch"];
         var oldDate = values["depart"+currentSearch];
 
-        const newUrl = ("?"+String(tags).replace(`depart${currentSearch}=${oldDate}`, `depart${currentSearch}=${el.dataset.date}`)).toString().replaceAll(",", "&");
+        const newUrl = window.location.origin+window.location.pathname+("?"+String(tags).replace(`depart${currentSearch}=${oldDate}`, `depart${currentSearch}=${el.dataset.date}`)).toString().replaceAll(",", "&");
+        console.log(newUrl);
         showLoading(newUrl);
     })
 });
-
 loadSearch()
+
+function selectFlight(btn) {
+    const article = btn.parentElement;
+    let flights = localStorage.getItem("selected_flights") 
+        ? JSON.parse(localStorage.getItem("selected_flights")) 
+        : [];
+
+    // Add new flight URLs from the article
+    flights.push(...article.dataset.urls.split(','));
+
+    // Save back to localStorage
+    localStorage.setItem("selected_flights", JSON.stringify(flights));
+    
+    let tags = window.location.href.split(window.location.pathname)[1].replaceAll("?", "").split("&");
+    let values = []
+    for (let tag of tags) {
+        key = tag.split("=")[0];
+        val = tag.split("=")[1];
+        values[key]=val;
+    }
+    if (values["currentSearch"]<values["destinations"]) {
+        values["currentSearch"] = parseInt(values["currentSearch"])+1;
+        let newQuery = Object.keys(values)
+            .map(k => `${k}=${values[k]}`)
+            .join("&");
+        showLoading(`${window.location.origin}${window.location.pathname}?${newQuery}`);
+    } else {
+        showLoading(window.location.origin+"/pages/selected_flights.htm");
+    }
+}
