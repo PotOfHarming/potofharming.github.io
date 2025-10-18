@@ -77,5 +77,5 @@ function showLoading(link) {
     setTimeout(() => {
         window.location.href = link;
         localStorage.setItem("enableLoadingScreen", "1");
-    }, 1000);
+    }, 1500);
 }
