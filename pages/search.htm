@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Flight Selection | SAS</title>
+        <title>Flight Selection</title>
         <link rel="shortcut icon" href="../images/favicon.png" type="image/x-icon">
 
         <link rel="stylesheet" href="../stylesheets/fonts.css">
@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="../stylesheets/search.css">
         <script src="../scripts/json/airports.js"></script>
         <script src="../scripts/standard.js" defer></script>
-        <script src="../scripts/server/find.js" defer></script>
+        <script src="../scripts/find.js" defer></script>
         <script src="../scripts/search.js" defer></script>
     </head>
     <body>
@@ -68,20 +68,19 @@
                 <hr id="progress_line">
                 <ul id="progress_dat">
                     <li class="dot started">
-                        <p class="selected">Select</p>
+                        <p class="selected">Select flights</p>
                     </li>
                     <li class="dot">
-                        <p>Passengers</p>
+                        <p>List of flights</p>
                     </li>
                     <li class="dot">
-                        <p>Extras</p>
-                    </li>
-                    <li class="dot">
-                        <p>Payment</p>
+                        <p>Continue at airline</p>
                     </li>
                 </ul>
             </nav>
         </header>
+
+        <!-- PAGE CONTENT -->
         <main>
             <!-- Flight information -->
             <section id="flight_data">
