@@ -24,6 +24,7 @@ function search() {
 
     showLoading("./pages/search.htm"+final_url);
     localStorage.setItem("flights", JSON.stringify(flight_list));
+    localStorage.removeItem("selected_flights");
 }
 
 function createNewFlight(orig="", dest="", dat="")
@@ -70,6 +71,7 @@ function onPageLoad()
     {
         if (flight==flight_list[0])
         {
+            console.log(flight)
             document.getElementsByClassName("origin_input")[0].value = flight[0];
             document.getElementsByClassName("destination_input")[0].value = flight[1];
             document.getElementsByClassName("date_input")[0].value = flight[2];
