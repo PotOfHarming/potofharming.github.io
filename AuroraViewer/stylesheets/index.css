@@ -11,12 +11,13 @@ body, html {
 
 #map {
     position: absolute;
-    top: 10vh;
-    left: 5vw;
-    width: 50%;
+    top: 90%;
+    left: 5%;
+    width: 90%;
     aspect-ratio: 16/10;
     z-index: 10;
     border: 2px solid black;
     border-radius: 1rem;
     background-color: rgba(107, 107, 107, 0.5);
+
 }
