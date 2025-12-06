@@ -1,0 +1,339 @@
+:root
+{
+    /* === SAS Brand Font === */
+    --font-family: 'Roboto', Arial, sans-serif;
+
+    /* === SAS Brand Colors === */
+    --blue: #2b3087;        /* Primary SAS Blue */
+    --dark-blue: #1c1f60;   /* Dark variant for depth/backgrounds */
+    --light-blue: #5c5cc9;  /* Accent blue for highlights */
+    --silver: #b0b0b0;      /* Metallic neutral tone */
+    --grey: #888888;        /* Neutral text or dividers */
+    --white: #ffffff;       /* Clean contrast base */
+
+
+
+    --background-clr-1: var(--light-blue);
+    --background-clr-2: var(--blue);
+
+    --btn-normal: transparent;
+    --btn-hover: color-mix(in srgb, var(--light-blue) 80%, black 20%);
+    
+    --progressbar-clr-1: var(--blue);
+    --progressbar-clr-2: var(--grey);
+    --progressbar-val: 25%;
+
+    --progress-txt-main: #000;
+    --progress-txt-done: var(--dark-blue);
+    --progress-txt-selected: color-mix(in srgb, var(--light-blue) 80%, white);
+
+    --route-line-color: var(--blue)
+}
+
+*
+{
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5) url("../images/background-1.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: darken;
+}
+
+/* -----===LOADING SCREEN STYLES===----- */
+#loading
+{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, var(--dark-blue), var(--light-blue));
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100000;
+    animation: fadeOut 2s forwards 3s;
+    display: block;
+}
+
+#loading.initLoad
+{
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeOut {
+    0%
+    {
+        opacity: 1;
+        visibility: visible;
+    }
+    100%
+    {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+@keyframes fadeIn {
+    0%
+    {
+        opacity: 0;
+        visibility: hidden;
+    }
+    100%
+    {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+#loading img:nth-of-type(1)
+{
+    height: 15vw;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#loading hr
+{
+    width: 40%;
+    height: clamp(3px, max(0.75vw, 0.75vh), max(1.5vw, 1.5vh));
+    border-radius: clamp(5px, max(1.5vw, 1.5vh), max(2vw, 2vh));
+    position: absolute;
+    top: calc(40% + 15vw);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--light-blue);
+}
+
+#loading img:nth-of-type(2) {
+    position: absolute;
+    top: calc(40% + 15vw);
+    left: 27.5%;
+    transform: translateY(-50%);
+    width: clamp(25px, max(6vw, 6vh), max(12vw, 12vh));
+}
+
+#loading img:nth-of-type(2).animate {
+    animation: toRight 1.5s forwards 1s;
+}
+
+@keyframes toRight {
+    from { left: 27.5%; }
+    to { left: 67.5%; }
+}
+
+
+/* -----===BURGER MENU STYLES===----- */
+aside
+{
+    width: min(8vw, 8vh);
+    height: 100%;
+    background: linear-gradient(to bottom, var(--background-clr-1), var(--background-clr-2));
+    z-index: 500;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-shadow: 5px 0 max(4vw, 4vh) max(4vw, 4vh) rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: width 0.75s;
+}
+
+aside #burger_menu-btn
+{
+    width: calc(calc(max(4vw, 4vh)*0.65) - max(0.5vw, 0.5vh));
+    aspect-ratio: 1/1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+aside #burger_menu-btn hr
+{
+    width: 80%;
+    height: 10%;
+    border: none;
+    border-radius: 5px;
+    background-color: black;
+    margin: 0;
+}
+
+aside #burger_menu-options
+{
+    position: absolute;
+    max-height: 85%;
+    width: max(4vw, 4vh);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    list-style-type: none;
+}
+
+aside #burger_menu-options .burger-opt
+{
+    max-width: calc(calc(max(4vw, 4vh)*0.65) - max(0.5vw, 0.5vh));
+    aspect-ratio: 1/1;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--btn-normal);
+    margin: 10px 0;
+    cursor: pointer;
+    padding: max(0.5vw, 0.5vh);
+}
+
+aside #burger_menu-options .burger-opt:hover
+{
+    background-color: var(--btn-hover);
+}
+
+aside #burger_menu-options .burger-opt a, aside #burger_menu-options a img
+{
+    height: 100%;
+    aspect-ratio: 1/1;
+}
+
+aside #burger_menu-options .burger-opt a + p
+{
+    position: relative;
+    top: calc(-50% - (min(40%, 65% - max(0.5vw, 0.5vh))));
+    left: min(8vw, 8vh);
+    width: calc(clamp(2px, max(1vw, 1vh), max(1.5vw, 1.5vh)) * 10);
+    font-size: clamp(2px, max(1.25vw, 1.25vh), max(1.75vw, 1.75vh));
+}
+
+
+
+
+
+/* -----===HEADER STYLES===----- */
+header
+{
+    width: 100%;
+    height: clamp(20px, max(7vw, 7vh), max(12vw, 12vh));
+    background: linear-gradient(to bottom, var(--background-clr-1), var(--background-clr-2));
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+
+nav
+{
+    height: 100%;
+    position: absolute;
+    left: calc(50% + min(5vw, 5vh));
+    transform: translateX(-50%);
+    width: max(50vw, min(70vw, 70vh));
+    margin: 0;
+    padding: 0;
+    z-index: 50;
+    padding: 4px;
+}
+
+#logo
+{
+    position: absolute;
+    max-height: 60%;
+    max-width: 20%;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+#progress_line
+{
+    width: 70%;
+    height: clamp(2px, max(0.5vw, 0.5vh), max(1vw, 1vh));
+    border: none;
+    position: absolute;
+    top: 40%;
+    left: 25%;
+    transform: translateY(-50%);
+    background: linear-gradient(
+                                    to right, 
+                                    var(--progressbar-clr-1) 0%, 
+                                    var(--progressbar-clr-1) calc(var(--progressbar-val) - 15%), 
+                                    var(--progressbar-clr-2) calc(var(--progressbar-val) - 5%), 
+                                    var(--progressbar-clr-2) 100%
+                                );
+}
+
+#progress_dat
+{
+    position: absolute;
+    display: flex;
+    list-style-type: none;
+    width: 70%;
+    height: clamp(4px, max(2vw, 2vh), max(3vw, 3vh));
+    top: 40%;
+    left: 25%;
+    transform: translateY(-50%);
+    justify-content: space-between;
+}
+
+#progress_dat .dot
+{
+    width: clamp(4px, max(2vw, 2vh), max(3vw, 3vh));
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--progressbar-clr-2);
+}
+
+#progress_dat .dot.started
+{
+    background-color: var(--progressbar-clr-1);
+    cursor: pointer;
+}
+
+#progress_dat .dot p
+{
+    position: relative;
+    width: 350%;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    top: clamp(4px, max(2vw, 2vh), max(3vw, 3vh));
+    font-size: clamp(2px, max(1vw, 1vh), max(1.5vw, 1.5vh));
+    font-weight: 700;
+    color: var(--progress-txt-main);
+}
+
+#progress_dat .dot p.done
+{
+    color: var(--progress-txt-done);
+    cursor: pointer;
+}
+
+#progress_dat .dot p.selected
+{
+    color: var(--progress-txt-selected);
+    font-weight: 900;
+    font-size: clamp(3px, max(1.25vw, 1.25vh), max(1.5vw, 1.5vh));
+    cursor: pointer;
+}
+
+/* -----===MAIN STYLES===----- */
+
+main
+{
+    position: absolute;
+    top: clamp(20px, max(7vw, 7vh), max(12vw, 12vh));
+    width: max(50vw, min(80vw, 80vh));
+    height: calc(100vh - clamp(20px, max(7vw, 7vh), max(12vw, 12vh)));
+    left: 50%;
+    transform: translateX(-50%);
+}
