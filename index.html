@@ -50,7 +50,7 @@
             display: flex;
             flex-direction: column;
             padding: 4px;
-            width: 30vw;
+            width: 70vw;
             position: absolute;
             top: min(1vh, 1vw);
             left: 50%;
@@ -66,43 +66,68 @@
             position: relative;
             display: block;
         }
-
+        
         #sites .site .goto {
             border-radius: min(1vw, 1vh);
             height: 25%;
             width: 90%;
             position: absolute;
-            bottom: 15px;
+            bottom: 4px;
             left: 50%;
             transform: translateX(-50%);
             border: none;
             background-color: rgb(50, 127, 216);
             font-weight: 800;
-            font-size: 1.5rem;
+            font-size: 1rem;
             overflow: hidden;
             cursor: pointer;
         }
-
+        
         #sites .site .title {
             color: white;
             width: 100%;
             text-align: center;
+            font-size: 0.95rem;
         }
-
+        
         #sites .site .description {
             position: relative;
             color: darkgray;
             font-weight: 200;
-            width: 70%;
+            width: 80%;
             left: 50%;
             transform: translateX(-50%);
+            font-size: 0.35rem;
+            height: 40%;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
 
+        @media (min-width: 450px) {
+            #sites {
+                width: 60vw;
+            }
+
+            #sites .site .title { font-size: 1.15rem; }
+            #sites .site .description { font-size: 0.6rem; padding: 3px; }
+        }
+
+        @media (min-width: 1000px) {
+            #sites {
+                width: 35vw;
+            }
+        }
+
+        @media (min-width: 1300px) {
+            #sites .site .title { font-size: 1.65rem; }
+            #sites .site .description { font-size: 0.85rem; padding: 3px; }
         }
     </style>
     <script>
         document.querySelectorAll(".goto").forEach(btn => {
             btn.addEventListener('click', function(){
-                if (btn.dataset.popup!="") {
+                if (btn.dataset.popup) {
                     window.location.href = btn.dataset.url + "?" + prompt(btn.dataset.popup);
                 } else {
                     window.location.href = btn.dataset.url;
