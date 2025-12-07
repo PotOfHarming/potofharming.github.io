@@ -28,7 +28,7 @@ const overlays = {
 var map = L.map('map', {
         center: [51.5, -0.125],
         zoom: 9,
-        minZoom: 3,
+        minZoom: 2,
         layers: [osm]
     });
 
