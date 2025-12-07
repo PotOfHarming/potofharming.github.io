@@ -102,7 +102,7 @@
     <script>
         document.querySelectorAll(".goto").forEach(btn => {
             btn.addEventListener('click', function(){
-                if (btn.dataset.popup!="") {
+                if (btn.dataset.popup) {
                     window.location.href = btn.dataset.url + "?" + prompt(btn.dataset.popup);
                 } else {
                     window.location.href = btn.dataset.url;
