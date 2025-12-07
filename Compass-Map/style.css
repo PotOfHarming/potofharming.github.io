@@ -1,0 +1,57 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body, html {
+    background-color: lightskyblue;
+    width: 100%;
+    height: 100%;
+}
+
+#map {
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+#input {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    z-index: 1000;
+    background-color: lightblue;
+    border: solid 1px black;
+    border-radius: .75rem;
+    width: 30vw;
+    aspect-ratio: 12/1;
+}
+
+@media (max-aspect-ratio: 1/1) {
+    #input { width: 70vw; }
+}
+
+#input input {
+    height: 79.5%;
+    width: 80%;
+    position: absolute;
+    left: 1.25%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 0;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+#input button {
+    height: 75%;
+    width: 14.5%;
+    position: absolute;
+    right: 1.25%;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    border: 0;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home</title>
+    </head>
+    <body>
+        <section id="sites">
+            <article class="site">
+                <h2 class="title">AuroraViewer</h2>
+                <h4 class="description">A simple website that shows you where on the world you can see the aurora now and where not</h4>
+                <button class="goto" data-url="./AuroraViewer/index.html">Open</button>
+            </article>
+            <article class="site">
+                <h2 class="title">FareFinder</h2>
+                <h4 class="description">A website where you can find your own flights within the available airports to create a cheap direct or connecting flight between 2 airports</h4>
+                <button class="goto" data-url="./FareFinder/index.html">Open</button>
+            </article>
+            <article class="site">
+                <h2 class="title">FareLocator</h2>
+                <h4 class="description">A simple website where you can draw lines between airports to see a route, can also be embedded into another website to display flights</h4>
+                <button class="goto" data-url="./FareLocator/route_map.html" data-popup="Which airports do you want? (Seperate by ',')">Open</button>
+            </article>
+            <article class="site">
+                <h2 class="title">Compass Map</h2>
+                <h4 class="description">A website where you can place a compass on specific coordinates to see what direction you're looking at or want to look at to see something</h4>
+                <button class="goto" data-url="./Compass-Map/index.html">Open</button>
+            </article>
+        </section>
+    </body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        html, body {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(135deg, skyblue, darkblue);
+        }
+
+        #sites {
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 4px;
+            width: 30vw;
+            position: absolute;
+            top: min(1vh, 1vw);
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #sites .site {
+            display: flex;
+            background-color: rgba(0, 0, 0, 0.3);
+            margin: 3px;
+            padding: 3px;
+            aspect-ratio: 6/2;
+            position: relative;
+            display: block;
+        }
+
+        #sites .site .goto {
+            border-radius: min(1vw, 1vh);
+            height: 25%;
+            width: 90%;
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: none;
+            background-color: rgb(50, 127, 216);
+            font-weight: 800;
+            font-size: 1.5rem;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        #sites .site .title {
+            color: white;
+            width: 100%;
+            text-align: center;
+        }
+
+        #sites .site .description {
+            position: relative;
+            color: darkgray;
+            font-weight: 200;
+            width: 70%;
+            left: 50%;
+            transform: translateX(-50%);
+
+        }
+    </style>
+    <script>
+        document.querySelectorAll(".goto").forEach(btn => {
+            btn.addEventListener('click', function(){
+                if (btn.dataset.popup!="") {
+                    window.location.href = btn.dataset.url + "?" + prompt(btn.dataset.popup);
+                } else {
+                    window.location.href = btn.dataset.url;
+                }
+            })
+        })
+    </script>
+</html>
