@@ -17,7 +17,7 @@ function placeRoutes() {
             } else drawMarker([ap.lat, ap.lon], ap.name, `${ap.iata} - ${ap.icao}`, false);
         }
         
-        if (routes.length==0 || airports.length==0) return;
+        if (routes.length==0 && airports.length==0) return;
         var [maxN, maxE, maxS, maxW] = [null, null, null, null];
         for (r of routes) {
             r = r.toUpperCase();
