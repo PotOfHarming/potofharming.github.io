@@ -132,7 +132,9 @@
         document.querySelectorAll(".goto").forEach(btn => {
             btn.addEventListener('click', function(){
                 if (btn.dataset.popup) {
-                    window.location.href = btn.dataset.url + "?" + prompt(btn.dataset.popup);
+                    var inp = prompt(btn.dataset.popup).replace(" ", "");
+                    if (inp==""||inp==null||inp=="null") inp = "";
+                    window.location.href = btn.dataset.url + "?" + inp;
                 } else {
                     window.location.href = btn.dataset.url;
                 }

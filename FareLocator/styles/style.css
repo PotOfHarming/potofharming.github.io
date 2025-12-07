@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body, html {
@@ -30,4 +31,15 @@ body, html {
     background-color: lightgray;
     border-radius: max(0.5vw, 0.5vh);
     overflow: hidden;
+}
+
+#info h1 {
+    position: relative;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    text-align: center;
+    border-bottom: 2px solid black;
+    padding-bottom: 3px;
 }

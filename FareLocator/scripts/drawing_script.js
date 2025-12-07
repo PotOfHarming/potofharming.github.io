@@ -17,7 +17,7 @@ function placeRoutes() {
             } else drawMarker([ap.lat, ap.lon], ap.name, `${ap.iata} - ${ap.icao}`, false);
         }
         
-        if (routes.length==0) return;
+        if (routes.length==0 || airports.length==0) return;
         var [maxN, maxE, maxS, maxW] = [null, null, null, null];
         for (r of routes) {
             r = r.toUpperCase();
@@ -46,7 +46,7 @@ function getRoutes() {
     var main = window.location.protocol+"//"+window.location.hostname+(window.location.port!=""?":"+window.location.port:"")+window.location.pathname;
     if (!window.location.href.startsWith(main+"?")) console.log("No routes possible");
     var locations = window.location.href.replace(main+"?", "");
-    if (locations.split(',')!="") {
+    if (locations.split(',')!=""&&locations!=null) {
         routes = locations.split(',');
     }
     placeRoutes();

@@ -1,6 +1,5 @@
 // OpenStreetMap standard
 const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 19,
   attribution: '&copy; OpenStreetMap contributors'
 });
 
@@ -29,6 +28,7 @@ const overlays = {
 var map = L.map('map', {
         center: [51.5, -0.125],
         zoom: 9,
+        minZoom: 3,
         layers: [osm]
     });
 

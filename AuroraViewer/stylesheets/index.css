@@ -12,9 +12,10 @@ body, html {
 #map {
     position: absolute;
     top: 5px;
-    left: 10%;
-    width: 80%;
-    aspect-ratio: 16/10;
+    left: 2.5%;
+    top: 2.5%;
+    width: 95%;
+    height: 95%;
     z-index: 10;
     border: 2px solid black;
     border-radius: 1rem;
