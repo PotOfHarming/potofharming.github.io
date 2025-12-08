@@ -50,6 +50,8 @@ for icao in icaos:
                 airport_name = el["tags"].get("name:en") or iata_code or icao
                 city = el["tags"].get("closest_town") or el["tags"].get("addr:city") or ""
 
+    if iata_code=="": iata_code = input("IATA")
+    if city=="": city = input("City: ")
 
 
     print(f"Using IATA: {iata_code}, Airport name: {airport_name}")
