@@ -1,4 +1,4 @@
-import requests, math
+import requests, math, os
 from PIL import Image, ImageDraw, ImageFont
 
 # ========================
@@ -10,10 +10,14 @@ COLOR_1 = (235, 235, 235)
 COLOR_2 = (80, 80, 80)
 COLOR_TEXT = (235, 235, 235)
 BOTTOM_MARGIN = 600  # extra space for IATA + name
-FONT_PATH = "Skyfont-NonCommercial.otf"  # IATA font
-NAME_FONT_PATH = "sans-serif.ttf"  # Airport name font
+FONT_1 = "Skyfont-NonCommercial.otf"  # IATA font
+FONT_2 = "sans-serif.ttf"  # Airport name font
 TEXT_MARGIN = 50  # spacing between IATA and name
 
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FONT_PATH = os.path.join(BASE_DIR, FONT_1)
+NAME_FONT_PATH = os.path.join(BASE_DIR, FONT_2)  # Airport name font
 # Get input and split by commas
 icaos = input("Which airport(s)? (ICAO, comma-separated): ").upper().split(",")
 
@@ -50,6 +54,7 @@ for icao in icaos:
                 airport_name = el["tags"].get("name:en") or iata_code or icao
                 city = el["tags"].get("closest_town") or el["tags"].get("addr:city") or ""
 
+    if iata_code=="" or city=="": print(f"Current ICAO: {icao}")
     if iata_code=="": iata_code = input("IATA")
     if city=="": city = input("City: ")
 
@@ -249,5 +254,8 @@ for icao in icaos:
     # SAVE OUTPUT
     # ========================
 
-    img.save(f"generated\\{icao}_map.png")
+    
+    if not os.path.exists(BASE_DIR+"\\generated\\"):
+        os.makedirs(BASE_DIR+"\\generated\\")
+    img.save(f"{BASE_DIR}\\generated\\{icao}_map.png")
     print(f"Saved generated\\{icao}_map.png")
