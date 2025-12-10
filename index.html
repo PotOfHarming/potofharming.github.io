@@ -6,27 +6,35 @@
         <title>Home</title>
     </head>
     <body>
-        <section id="sites">
-            <article class="site">
-                <h2 class="title">AuroraViewer</h2>
-                <h4 class="description">A simple website that shows you where on the world you can see the aurora now and where not</h4>
-                <button class="goto" data-url="./AuroraViewer/index.html">Open</button>
-            </article>
-            <article class="site">
-                <h2 class="title">FareFinder</h2>
-                <h4 class="description">A website where you can find your own flights within the available airports to create a cheap direct or connecting flight between 2 airports</h4>
-                <button class="goto" data-url="./FareFinder/index.html">Open</button>
-            </article>
-            <article class="site">
-                <h2 class="title">FareLocator</h2>
-                <h4 class="description">A simple website where you can draw lines between airports to see a route, can also be embedded into another website to display flights</h4>
-                <button class="goto" data-url="./FareLocator/route_map.html" data-popup="Which airports do you want? (Seperate by ',')">Open</button>
-            </article>
-            <article class="site">
-                <h2 class="title">Compass Map</h2>
-                <h4 class="description">A website where you can place a compass on specific coordinates to see what direction you're looking at or want to look at to see something</h4>
-                <button class="goto" data-url="./Compass-Map/index.html">Open</button>
-            </article>
+        <section id="sites-container">
+            <section id="sites">
+                <article class="site">
+                    <h2 class="title">AuroraViewer</h2>
+                    <h4 class="description">A simple website that shows you where on the world you can see the aurora now and where not</h4>
+                    <button class="goto" data-url="./AuroraViewer/index.html">Open</button>
+                </article>
+                <article class="site">
+                    <h2 class="title">FareFinder</h2>
+                    <h4 class="description">A website where you can find your own flights within the available airports to create a cheap direct or connecting flight between 2 airports</h4>
+                    <button class="goto" data-url="./FareFinder/index.html">Open</button>
+                </article>
+                <article class="site">
+                    <h2 class="title">FareLocator</h2>
+                    <h4 class="description">A simple website where you can draw lines between airports to see a route, can also be embedded into another website to display flights</h4>
+                    <button class="goto" data-url="./FareLocator/route_map.html" data-popup="Which airports do you want? (Seperate by ',')">Open</button>
+                </article>
+                <article class="site">
+                    <h2 class="title">Compass Map</h2>
+                    <h4 class="description">A website where you can place a compass on specific coordinates to see what direction you're looking at or want to look at to see something</h4>
+                    <button class="goto" data-url="./Compass-Map/index.html">Open</button>
+                </article>
+                <article class="site">
+                    <h2 class="title">FareChain</h2>
+                    <h4 class="description">A website where you can create a chain flight for as cheap as possible</h4>
+                    <button class="goto" data-url="./FareChain/index.html">Open</button>
+                </article>
+            </section>
+            <section id="darkness"></section>
         </section>
     </body>
     <style>
@@ -49,16 +57,39 @@
             background: linear-gradient(135deg, skyblue, darkblue);
         }
 
-        #sites {
-            background-color: rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            padding: 4px;
+        #sites-container {
+            max-height: calc(100vh - min(2vh, 2vw) - 10px);
             width: 70vw;
             position: absolute;
             top: min(1vh, 1vw);
             left: 50%;
             transform: translateX(-50%);
+            padding: 5px;
+        }
+
+        #sites {
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            max-height: inherit;
+        }
+
+        #darkness {
+            position: absolute;
+            width: 70vw;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 15%;
+            background: linear-gradient(
+                                        to top, 
+                                        rgba(0, 0, 0, 0.6) 0%, 
+                                        rgba(0, 0, 0, 0.4) 70%, 
+                                        rgba(0, 0, 0, 0) 100%
+                                    );
+            pointer-events: none;
+            bottom: 0;
         }
 
         #sites .site {
@@ -109,18 +140,16 @@
         }
 
         @media (min-width: 450px) {
-            #sites {
-                width: 60vw;
-            }
+            #sites-container { width: 60vw; }
+            #darkness { width: 60vw; }
 
             #sites .site .title { font-size: 1.15rem; }
             #sites .site .description { font-size: 0.6rem; padding: 3px; }
         }
 
         @media (min-width: 1000px) {
-            #sites {
-                width: 35vw;
-            }
+            #sites-container { width: 35vw; }
+            #darkness { width: 35vw; }
         }
 
         @media (min-width: 1300px) {
